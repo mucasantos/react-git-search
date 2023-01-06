@@ -1,7 +1,8 @@
 function About() {
     return (
-        <div>
-            <h1 className="text-6xl">Welcome!</h1>
+        <div className="text-center">
+            <h1 className="text-6xl">mucasantos@gmail.com</h1>
+            
         </div>
     )
 }
