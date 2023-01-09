@@ -13,8 +13,8 @@ const githubReducer = (state, action) => {
       };
     case "CLEAR_SEARCH":
       return {
-        users: action.payload,
-        loading: false,
+        ...state,
+        users: []
       };
     case "GET_USER_PROFILE":
       return {

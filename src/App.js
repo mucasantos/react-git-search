@@ -9,7 +9,7 @@ import { GithubProvider } from "./Context/github/GithubContext";
 
 import { AlertProvider } from "./Context/alert/AlertContext";
 import AlertApp from "./components/layout/AlertApp";
-import User from "./components/users/User";
+import User from "./pages/User";
 
 function App() {
   return (

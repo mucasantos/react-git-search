@@ -6,22 +6,30 @@ import {
 } from "react-icons/fa";
 import { useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
-import GithubContext from "../../Context/github/GithubContext";
+import GithubContext from "../Context/github/GithubContext";
 import { Link } from "react-router-dom";
-import Spinner from "../layout/Spinner";
-import RepoList from "../repos/RepoList";
+import Spinner from "../components/layout/Spinner";
+import RepoList from "../components/repos/RepoList";
+import { getUserProfile, getUserRepos } from '../Context/github/GithubActions'
 
 function User() {
-  const { getUserProfile, user, loading, getUserRepos, repos } = useContext(GithubContext);
+  const { dispatch, user, loading, repos } = useContext(GithubContext);
 
   const params = useParams();
 
   useEffect(() => {
-    getUserProfile(params.login);
-    getUserRepos(params.login);
-    
-    // es-lint-disabçe-next-line react-hooks/exhaustive-deps
-  }, []);
+    dispatch({ type: "SET_LOADING" })
+
+    const getUserData = async () => {
+      const userData = await getUserProfile(params.login)
+      dispatch({ type: 'GET_USER_PROFILE', payload: userData })
+
+      const userRepoData = await getUserRepos(params.login)
+      dispatch({ type: 'GET_REPOS', payload: userRepoData })
+    }
+    getUserData()
+
+  }, [dispatch, params.login]);
 
   const {
     name,
@@ -38,8 +46,9 @@ function User() {
     public_repos,
     public_gists,
     hireable,
-   
+
   } = user;
+
 
   if (loading) {
     return <Spinner />;
@@ -170,7 +179,7 @@ function User() {
             </div>
           </div>
         </div>
-        <RepoList repos = {repos}/>
+        <RepoList repos={repos} />
       </div>
     </>
   );
