@@ -37,7 +37,6 @@ export const GithubProvider = ({ children }) => {
 
         dispatch({
             type: 'CLEAR_SEARCH',
-            payload: []
         })
     }
 
