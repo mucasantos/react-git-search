@@ -2,23 +2,25 @@ import {
   FaCodepen,
   FaStore,
   FaUserFriends,
-  FaUSerFriends,
   FaUsers,
-  FaUSers,
 } from "react-icons/fa";
 import { useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import GithubContext from "../../Context/github/GithubContext";
 import { Link } from "react-router-dom";
 import Spinner from "../layout/Spinner";
+import RepoList from "../repos/RepoList";
 
 function User() {
-  const { getUserProfile, user, loading } = useContext(GithubContext);
+  const { getUserProfile, user, loading, getUserRepos, repos } = useContext(GithubContext);
 
   const params = useParams();
 
   useEffect(() => {
     getUserProfile(params.login);
+    getUserRepos(params.login);
+    
+    // es-lint-disabçe-next-line react-hooks/exhaustive-deps
   }, []);
 
   const {
@@ -36,6 +38,7 @@ function User() {
     public_repos,
     public_gists,
     hireable,
+   
   } = user;
 
   if (loading) {
@@ -52,7 +55,7 @@ function User() {
         </div>
         <div className="grid grid-cols-1 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-3 mb-8 md:gap-8">
           <div className="custom-card-image mb-6 md:mb-0">
-            <div className="rounded-lg shadow-xl card image-full">
+            <div className="rounded-lg shadow-xl card-image-full">
               <figure>
                 <img src={avatar_url} alt="" />
               </figure>
@@ -167,6 +170,7 @@ function User() {
             </div>
           </div>
         </div>
+        <RepoList repos = {repos}/>
       </div>
     </>
   );
